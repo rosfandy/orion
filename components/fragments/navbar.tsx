@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { LogOut, UserCircle } from 'lucide-react'
 import { ThemeToggle } from '@/features/theme/components/theme-toggle'
 import { Button } from '@/components/ui/button'

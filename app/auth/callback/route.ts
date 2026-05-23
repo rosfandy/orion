@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   // Create the redirect response first, then set Supabase cookies on it.
   // This ensures session cookies are included in the redirect response.
-  let response = NextResponse.redirect(`${origin}${next}`)
+  const response = NextResponse.redirect(`${origin}${next}`)
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

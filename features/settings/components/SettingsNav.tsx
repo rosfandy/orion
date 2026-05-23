@@ -4,11 +4,7 @@ import { cn } from '@/lib/utils'
 import type { SettingsSection } from '@/features/settings/types'
 import {
   User,
-  UserCircle,
   Palette,
-  Globe,
-  Shield,
-  Building2,
 } from 'lucide-react'
 
 interface NavItem {

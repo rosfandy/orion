@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
@@ -19,15 +19,14 @@ interface CollabEditorProps {
 }
 
 export const CollabEditor = ({ userName = 'Anonymous', color = '#f97316' }: CollabEditorProps) => {
-  const providerRef = useRef<HocuspocusProvider | null>(null)
-
-  if (!providerRef.current) {
-    providerRef.current = new HocuspocusProvider({
+  // Use useMemo instead of useRef to avoid accessing ref during render
+  const provider = useMemo(() => {
+    return new HocuspocusProvider({
       url: process.env.NEXT_PUBLIC_HOCUSPOCUS_URL ?? 'ws://localhost:1234',
       name: 'demo-document',
       document: doc,
     })
-  }
+  }, [])
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -39,7 +38,7 @@ export const CollabEditor = ({ userName = 'Anonymous', color = '#f97316' }: Coll
         document: doc,
       }),
       CollaborationCaret.configure({
-        provider: providerRef.current,
+        provider,
         user: { name: userName, color },
       }),
     ],
@@ -61,10 +60,9 @@ export const CollabEditor = ({ userName = 'Anonymous', color = '#f97316' }: Coll
 
   useEffect(() => {
     return () => {
-      providerRef.current?.destroy()
-      providerRef.current = null
+      provider.destroy()
     }
-  }, [])
+  }, [provider])
 
   return <EditorContent editor={editor} />
 }

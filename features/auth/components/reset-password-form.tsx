@@ -10,11 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Eye, EyeOff } from 'lucide-react'
 
-interface ResetPasswordFormProps {
-  onSuccess?: () => void
-}
-
-export function ResetPasswordForm({ onSuccess }: ResetPasswordFormProps) {
+export function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)

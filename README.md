@@ -1,7 +1,5 @@
 # Orion
 
-A collaborative workspace built with Next.js 16, React 19, and Supabase.
-
 ## Stack
 
 - **Framework:** Next.js 16 (App Router)

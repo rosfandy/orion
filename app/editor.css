@@ -1,0 +1,218 @@
+/* ── Tiptap / ProseMirror — Notion-like editor styles ──────────────────────
+   Targets the .ProseMirror class injected automatically by Tiptap onto the
+   contenteditable element. Uses CSS variables from globals.css so dark-mode
+   works without any extra overrides.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Base -------------------------------------------------------------------- */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+/* Paragraph --------------------------------------------------------------- */
+.ProseMirror p {
+  margin-bottom: 0.75rem;
+  line-height: 1.625; /* leading-relaxed */
+}
+
+/* Headings ---------------------------------------------------------------- */
+.ProseMirror h1 {
+  font-size: 2rem;       /* 32px */
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;     /* 24px */
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.375rem;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25rem;    /* 20px */
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Remove top margin when a heading is the very first element */
+.ProseMirror h1:first-child,
+.ProseMirror h2:first-child,
+.ProseMirror h3:first-child {
+  margin-top: 0;
+}
+
+/* Lists ------------------------------------------------------------------- */
+.ProseMirror ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ProseMirror ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.25rem;
+}
+
+/* Paragraphs inside list items don't need extra bottom spacing */
+.ProseMirror li p {
+  margin-bottom: 0;
+}
+
+/* Task list --------------------------------------------------------------- */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label > input[type="checkbox"] {
+  margin-top: 0.125rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+
+/* Strike-through + dim completed tasks */
+.ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+/* Blockquote -------------------------------------------------------------- */
+.ProseMirror blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* Inline code ------------------------------------------------------------- */
+.ProseMirror code {
+  background: var(--muted);
+  color: var(--foreground);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: monospace;
+}
+
+/* Code block -------------------------------------------------------------- */
+.ProseMirror pre {
+  background: var(--muted);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.ProseMirror pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+/* Horizontal rule --------------------------------------------------------- */
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* Placeholder ------------------------------------------------------------- */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  opacity: 0.4;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* Strong / Em ------------------------------------------------------------- */
+.ProseMirror strong {
+  font-weight: 600;
+}
+
+.ProseMirror em {
+  font-style: italic;
+}
+
+/* Links ------------------------------------------------------------------- */
+.ProseMirror a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Selection highlight ----------------------------------------------------- */
+.ProseMirror ::selection {
+  background: color-mix(in oklch, var(--primary) 15%, transparent);
+}
+
+/* Collaboration cursors --------------------------------------------------- */
+/* Remote caret */
+.collaboration-cursor__caret {
+  border-left: 2px solid;
+  border-color: var(--cursor-color, var(--primary));
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+
+/* Cursor label */
+.collaboration-cursor__label {
+  background-color: var(--cursor-color, var(--primary));
+  border-radius: 3px 3px 3px 0;
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  left: -1px;
+  line-height: normal;
+  padding: 0.1rem 0.3rem;
+  position: absolute;
+  top: -1.4em;
+  user-select: none;
+  white-space: nowrap;
+}

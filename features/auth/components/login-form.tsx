@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { loginUser } from '@/features/auth/service/auth-service'
+import { loginUser, guestLoginUser } from '@/features/auth/service/auth-service'
 import type { LoginFormData } from '@/features/auth/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -118,6 +118,37 @@ export function LoginForm() {
             </Link>
           </div>
         </form>
+
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">or</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={isPending}
+            onClick={() => {
+              setError(null)
+              startTransition(async () => {
+                const result = await guestLoginUser()
+                if (result?.error) {
+                  setError(result.error)
+                  toast.error(result.error)
+                } else if (result?.success) {
+                  toast.success('Welcome, guest!')
+                  window.location.href = '/dashboard'
+                }
+              })
+            }}
+          >
+            {isPending ? 'Continuing…' : 'Continue as Guest'}
+          </Button>
       </CardContent>
     </Card>
   )

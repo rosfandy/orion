@@ -10,6 +10,20 @@ export async function signOutAction() {
   redirect('/auth/login')
 }
 
+export async function guestLoginUser(): Promise<AuthResult> {
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signInAnonymously()
+
+  if (error) {
+    if (error.code === 'anonymous_provider_disabled') {
+      return { error: 'Guest login is not enabled. Please sign in with an account.' }
+    }
+    return { error: 'Something went wrong. Please try again later.' }
+  }
+
+  return { success: true }
+}
+
 export async function loginUser(data: LoginFormData): Promise<AuthResult> {
   if (data.email.trim() === '') {
     return { error: 'Please enter your email address.' }
